@@ -1,15 +1,91 @@
-import React from 'react';
-import './user.scss';
+import React, { useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
+import { useDispatch, useSelector } from "react-redux"
+import { updateProfile } from "@services/apiCaller"
+import "./user.scss"
 
-function User () {
 
-    return (
+function User() {
 
-<main className="main bg-dark">
+  const { isAuthenticated, data } = useSelector((state) => state.global)
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const [firstName, setFirstName] = useState("")
+  const [lastName, setLastName] = useState("")
+
+  const upDateContext = (data) => {
+    let tmp = { ...data }
+    tmp.firstName = newFirstName
+    tmp.lastName = newLastName
+    dispatch({ type: "global/setData", payload: tmp })
+  }
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      navigate("/login")
+    } else {
+      setFirstName(data.firstName)
+      setLastName(data.lastName)
+    }
+  }, [])
+
+  // État local pour gérer l'affichage des champs d'input et des boutons
+  const [isEditing, setIsEditing] = useState(false)
+  const [newFirstName, setNewFirstName] = useState("")
+  const [newLastName, setNewLastName] = useState("")
+
+  const handleEditClick = () => {
+    setIsEditing(true);
+    setNewFirstName(newFirstName !== "" ? newFirstName : "")
+    setNewLastName(newLastName !== "" ? newLastName : "")
+  }
+
+  const handleSaveClick = () => {
+    upDateContext(data)
+    let tmp = {
+      firstName: newFirstName,
+      lastName: newLastName,
+    }
+    // Mettre à jour l'état Redux avec les nouvelles valeurs
+    updateProfile(localStorage.getItem("token"), tmp)
+    setIsEditing(false)
+  }
+
+  const handleCancelClick = () => {
+    setIsEditing(false)
+    setNewFirstName("")
+    setNewLastName("")
+  }
+
+  return (
+    <main className="main bg-dark">
       <div className="header">
         <p>Welcome back</p>
-        <h1>Tony Jarvis!</h1>
-        <button className="edit-button">Edit Name</button>
+        <h1>
+          {newFirstName !== "" ? newFirstName : firstName}{" "}
+          {newLastName !== "" ? newLastName : lastName} !
+        </h1>
+        <button className="edit-button" onClick={handleEditClick}>
+          Edit Name
+        </button>
+        {isEditing && (
+          <div className="input-button-container">
+            <div className="input-wrapper">
+              <input
+                type="text"
+                onChange={(e) => setNewFirstName(e.target.value)}
+              />
+              <input
+                type="text"
+                onChange={(e) => setNewLastName(e.target.value)}
+              />
+            </div>
+            <div className="button-wrapper">
+              <button onClick={handleSaveClick}>Save</button>
+              <button onClick={handleCancelClick}>Cancel</button>
+            </div>
+          </div>
+        )}
       </div>
       <h2 className="sr-only">Accounts</h2>
       <section className="account">
@@ -43,8 +119,7 @@ function User () {
         </div>
       </section>
     </main>
-
-    )
+  )
 }
 
 export default User
