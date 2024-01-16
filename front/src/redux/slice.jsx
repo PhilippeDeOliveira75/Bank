@@ -9,10 +9,12 @@ const globalSlice = createSlice({
       ? await getProfile(localStorage.getItem("token"))
       : null,
   },
+  
   reducers: {
     setAuthenticated: (state, action) => {
       state.isAuthenticated = action.payload
     },
+
     setData: (state, action) => {
       state.data = action.payload;
     },
