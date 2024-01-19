@@ -17,7 +17,7 @@ function User() {
     let tmp = { ...data }
     tmp.firstName = newFirstName
     tmp.lastName = newLastName
-    dispatch({ type: "global/setData", payload: tmp })
+    dispatch({ type: "global/setNames", payload: tmp })
   }
 
   useEffect(() => {
@@ -33,13 +33,20 @@ function User() {
   const [isEditing, setIsEditing] = useState(false)
   const [newFirstName, setNewFirstName] = useState("")
   const [newLastName, setNewLastName] = useState("")
-
+  const [previousFirstName, setPreviousFirstName] = useState("")
+  const [previousLastName, setPreviousLastName] = useState("")
+  
   const handleEditClick = () => {
-    setIsEditing(true);
-    setNewFirstName(newFirstName !== "" ? newFirstName : "")
-    setNewLastName(newLastName !== "" ? newLastName : "")
+    setPreviousFirstName(newFirstName)
+    setPreviousLastName(newLastName)
+    setIsEditing(true)
   }
-
+  
+  const handleCancelClick = () => {
+    setIsEditing(false)
+    setNewFirstName(previousFirstName)
+    setNewLastName(previousLastName)
+  }
   const handleSaveClick = () => {
     upDateContext(data)
     let tmp = {
@@ -51,11 +58,7 @@ function User() {
     setIsEditing(false)
   }
 
-  const handleCancelClick = () => {
-    setIsEditing(false)
-    setNewFirstName("")
-    setNewLastName("")
-  }
+
 
   return (
     <main className="main bg-dark">

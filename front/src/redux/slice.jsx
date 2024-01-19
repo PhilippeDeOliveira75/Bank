@@ -11,12 +11,13 @@ const globalSlice = createSlice({
   },
   
   reducers: {
+    
     setAuthenticated: (state, action) => {
       state.isAuthenticated = action.payload
     },
 
-    setData: (state, action) => {
-      state.data = action.payload;
+    setNames: (state, action) => {
+      state.data = action.payload
     },
 
     removeGlobal: (state, action) => {
