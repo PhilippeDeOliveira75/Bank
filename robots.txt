@@ -1,0 +1,17 @@
+# Fichier robots.txt pour Argent Bank
+
+User-agent: *
+Disallow: /admin/          # Ne pas indexer la section administrateur
+Disallow: /login/          # Ne pas indexer les pages de connexion
+Disallow: /register/       # Ne pas indexer les pages d'inscription
+Disallow: /user/           # Ne pas indexer les pages des utilisateurs
+Disallow: /private/        # Ne pas indexer les sections privées
+Disallow: /cart/           # Ne pas indexer le panier d'achat (si applicable)
+Disallow: /checkout/       # Ne pas indexer la page de paiement
+
+Allow: /                  # Autoriser l'indexation de la page d'accueil et des pages publiques
+Allow: /services/         # Autoriser l'indexation des pages des services bancaires
+Allow: /about/            # Autoriser l'indexation des pages "À propos"
+Allow: /contact/          # Autoriser l'indexation des pages de contact
+
+Sitemap: https://www.monsitebancaire.com/sitemap.xml  # Indique le fichier sitemap
