@@ -13,14 +13,14 @@ export default defineConfig({
     })
   ],
 
-  build: {
-    target: 'es2022'
+  esbuild: {
+    target: 'esnext',
   },
 
   css: {
     preprocessorOptions: {
       scss: {
-        api: 'modern-compiler' // or "modern"
+        api: 'modern-compiler'
       }
     }
   },
